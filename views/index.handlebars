@@ -1,0 +1,129 @@
+<div class="jumbotron">
+	  <h1 class="display-4">Reading List</h1>
+	  <p class="lead">Plan your reading here!</p>
+	  <hr class="my-4">
+	  <p>Use the functions below to make and update your own reading list.</p>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="card">
+			  <h5 class="card-header">Books to Read</h5>
+			  <div class="card-body">
+			    <table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID #</th>
+				      <th scope="col">Title</th>
+				      <th scope="col">Author</th>
+				      <th scope="col">Mark as Read?</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+					{{#each books.toRead}}
+					<tr>
+				      <th scope="row">{{id}}</th>
+				      <td>{{book_name}}</td>
+				      <td>{{author}}</td>
+				      <td><button class="mark-as-read" data-bookid="{{id}}">Mark as Read</button></td>
+				    </tr>
+					{{/each}}
+				  </tbody>
+				</table>
+			  </div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card">
+			  <h5 class="card-header">Books Finished</h5>
+			  <div class="card-body">
+			    <table class="table">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID #</th>
+				      <th scope="col">Title</th>
+				      <th scope="col">Author</th>
+				      <th scope="col">Delete?</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    {{#each books.finished}}
+					<tr>
+				      <th scope="row">{{id}}</th>
+				      <td>{{book_name}}</td>
+				      <td>{{author}}</td>
+				      <td><button class="delete" data-bookid="{{id}}">Delete</button></td>
+					{{/each}}
+				  </tbody>
+				</table>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<h5 class="card-header">Add a book to your reading list</h5>
+				<div class="card-body">
+					<form>
+					  <div class="form-group">
+					    <label>Book Title</label>
+					    <input type="text" class="form-control" id="book-title" placeholder="title here">
+					  </div>
+					  <div class="form-group">
+					    <label>Author</label>
+					    <input type="text" class="form-control" id="author" placeholder="author here">
+					  </div>
+					  <button id="submit" class="btn btn-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+		$("#submit").on("click", function() {
+			event.preventDefault();
+
+			var title = $("#book-title").val().trim();
+			var author = $("#author").val().trim();
+
+			var newBook = {
+				title: title,
+				author: author
+			}
+
+			$.ajax("/add", {
+				type: "POST",
+				data: newBook
+			}).then(
+				function() {
+					console.log("new book added");
+					location.reload();
+				}
+			);
+		})
+
+		$(".mark-as-read").on("click", function() {
+			var id = $(this).data("bookid");
+
+			$.ajax("/update/" + id, {
+				type: "PUT"
+			}).then(function() {
+				console.log("updated id " + id);
+				location.reload();
+			})
+		})
+
+		$(".delete").on("click", function() {
+			var id = $(this).data("bookid");
+
+			$.ajax("/delete/" + id, {
+				type: "DELETE"
+			}).then(function() {
+				console.log("deleted id " + id);
+				location.reload();
+			});
+		});
+
+	</script>
