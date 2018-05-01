@@ -15,17 +15,15 @@
 				      <th scope="col">ID #</th>
 				      <th scope="col">Title</th>
 				      <th scope="col">Author</th>
-				      <th scope="col">Mark as Read?</th>
+				      <th scope="col">Mark as Read</th>
+				      <th scope="col">Delete</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-					{{#each books.toRead}}
-					<tr>
-				      <th scope="row">{{id}}</th>
-				      <td>{{book_name}}</td>
-				      <td>{{author}}</td>
-				      <td><button class="mark-as-read" data-bookid="{{id}}">Mark as Read</button></td>
-				    </tr>
+					{{#each books}}
+						{{#unless read_status}}
+							{{> books/book-block read_status=true}}
+						{{/unless}}
 					{{/each}}
 				  </tbody>
 				</table>
@@ -42,16 +40,15 @@
 				      <th scope="col">ID #</th>
 				      <th scope="col">Title</th>
 				      <th scope="col">Author</th>
-				      <th scope="col">Delete?</th>
+				      <th scope="col">Mark as unread</th>
+				      <th scope="col">Delete</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-				    {{#each books.finished}}
-					<tr>
-				      <th scope="row">{{id}}</th>
-				      <td>{{book_name}}</td>
-				      <td>{{author}}</td>
-				      <td><button class="delete" data-bookid="{{id}}">Delete</button></td>
+				    {{#each books}}
+				    	{{#if read_status}}
+							{{> books/book-block read_status=false}}
+				     	{{/if}}	
 					{{/each}}
 				  </tbody>
 				</table>
@@ -73,7 +70,7 @@
 					    <label>Author</label>
 					    <input type="text" class="form-control" id="author" placeholder="author here">
 					  </div>
-					  <button id="submit" class="btn btn-primary">Submit</button>
+					  <button id="submit" type="submit" class="btn btn-primary">Submit</button>
 					</form>
 				</div>
 			</div>
@@ -82,7 +79,7 @@
 
 	<script type="text/javascript">
 
-		$("#submit").on("click", function() {
+		$("#submit").on("click", function(event) {
 			event.preventDefault();
 
 			var title = $("#book-title").val().trim();
@@ -104,11 +101,17 @@
 			);
 		})
 
-		$(".mark-as-read").on("click", function() {
+		$(".update-status").on("click", function() {
 			var id = $(this).data("bookid");
+			var newStatus = $(this).data("newstatus");
+
+			var newStatusState = {
+				read_status: newStatus
+			};
 
 			$.ajax("/update/" + id, {
-				type: "PUT"
+				type: "PUT",
+				data: newStatusState
 			}).then(function() {
 				console.log("updated id " + id);
 				location.reload();

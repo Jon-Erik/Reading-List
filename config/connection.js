@@ -9,11 +9,9 @@ var connection = mysql.createConnection({
 	database: "reading_list_db"
 })
 
-module.exports = function(mysql) {
-	connection.connect(function(err) {
-		if (err) {
-			throw err;
-		}
-		console.log("connected as id " + connection.threadId);
-	})
-}
+connection.connect(function(err) {
+	if (err) throw err;
+	console.log("connected as id " + connection.threadId);
+})
+
+module.exports = connection;
