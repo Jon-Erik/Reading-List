@@ -2,7 +2,7 @@
 	  <h1 class="display-4">Reading List</h1>
 	  <p class="lead">Plan your reading here!</p>
 	  <hr class="my-4">
-	  <p>Use the functions below to make and update your own reading list.</p>
+	  <p>Use the functions below to create and update your own reading list.</p>
 	</div>
 	<div class="row">
 		<div class="col">
@@ -61,7 +61,7 @@
 			<div class="card">
 				<h5 class="card-header">Add a book to your reading list</h5>
 				<div class="card-body">
-					<form>
+					<form id="new-book">
 					  <div class="form-group">
 					    <label>Book Title</label>
 					    <input type="text" class="form-control" id="book-title" placeholder="title here">
@@ -70,7 +70,7 @@
 					    <label>Author</label>
 					    <input type="text" class="form-control" id="author" placeholder="author here">
 					  </div>
-					  <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+					  <button type="submit" class="btn btn-primary">Submit</button>
 					</form>
 				</div>
 			</div>
@@ -78,8 +78,8 @@
 	</div>
 
 	<script type="text/javascript">
-
-		$("#submit").on("click", function(event) {
+		//sets up post ajax request to add book to the database on submitting form
+		$("#new-book").submit(function(event) {
 			event.preventDefault();
 
 			var title = $("#book-title").val().trim();
@@ -100,7 +100,7 @@
 				}
 			);
 		})
-
+		//sets up put ajax request to mark book as read/unread
 		$(".update-status").on("click", function() {
 			var id = $(this).data("bookid");
 			var newStatus = $(this).data("newstatus");
@@ -117,7 +117,7 @@
 				location.reload();
 			})
 		})
-
+		//sets up delete ajax request to remove a book from the database
 		$(".delete").on("click", function() {
 			var id = $(this).data("bookid");
 

@@ -1,3 +1,4 @@
+//Connection with local database configured
 var mysql = require("mysql");
 var password = require("./password.js");
 

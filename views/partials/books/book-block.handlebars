@@ -2,6 +2,6 @@
   <th scope="row">{{id}}</th>
   <td>{{book_name}}</td>
   <td>{{author}}</td>
-  <td><button class="update-status" data-bookid="{{id}}" data-newstatus="{{read_status}}">{{#if read_status}}Mark as read{{else}}Mark as unread{{/if}}</button></td>
-  <td><button class="delete" data-bookid="{{id}}">Delete</button></td>
+  <td><button class="update-status btn btn-outline-success" data-bookid="{{id}}" data-newstatus="{{read_status}}">{{#if read_status}}Mark as read{{else}}Mark as unread{{/if}}</button></td>
+  <td><button class="delete btn btn-outline-danger" data-bookid="{{id}}">Delete</button></td>
  </tr>

@@ -85,7 +85,7 @@
 			<div class="card">
 				<h5 class="card-header">Submit a Book</h5>
 				<div class="card-body">
-					<form>
+					<form id="target">
 					  <div class="form-group">
 					    <label>Book Title</label>
 					    <input type="text" class="form-control" id="book-title" placeholder="Book title here">
@@ -100,6 +100,11 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
+<script type="text/javascript">
+	$("#target").submit(function(event) {
+		event.preventDefault();
+		alert("submit called");
+	})
+</script>
 </html>
