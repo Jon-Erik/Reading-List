@@ -16,4 +16,13 @@
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;  
+    /*background-color:rgba(0, 0, 0, 0.5);*/
+}
+
+.jumbotron p {
+	font-size: 20px;
+}
+
+.background {
+	color: white;
 }
