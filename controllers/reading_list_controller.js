@@ -4,6 +4,9 @@ var router = express.Router();
 
 var book = require("../models/books.js");
 
+//url handlers which use the model functions from book.js file
+//to handle requests to the database from the html and render the 
+//correct information
 router.get("/", function(req, res) {
 	book.selectAll(function(data) {
 		var hbsObject = {
